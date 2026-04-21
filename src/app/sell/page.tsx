@@ -8,6 +8,7 @@ export default function SellPage() {
   const { user } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -19,6 +20,34 @@ export default function SellPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  // จัดการอัปโหลดไฟล์
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const uploadFormData = new FormData()
+    uploadFormData.append('file', file)
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setFormData(prev => ({ ...prev, imageUrl: data.url }))
+      } else {
+        alert(data.error || 'อัปโหลดรูปไม่สำเร็จ')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('เกิดข้อผิดพลาดในการอัปโหลด')
+    } finally {
+      setUploading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,7 +69,7 @@ export default function SellPage() {
           description: formData.description,
           price: parseFloat(formData.price),
           stock: parseInt(formData.stock),
-          imageUrl: formData.imageUrl || undefined
+          imageUrl: formData.imageUrl || null
         })
       })
 
@@ -62,7 +91,9 @@ export default function SellPage() {
     return (
       <div className="text-center py-10">
         <p>กรุณาเข้าสู่ระบบเพื่อลงขายสินค้า</p>
-        <button onClick={() => router.push('/login')} className="mt-2 bg-blue-600 text-white px-4 py-2 rounded">เข้าสู่ระบบ</button>
+        <button onClick={() => router.push('/login')} className="mt-2 bg-blue-600 text-white px-4 py-2 rounded">
+          เข้าสู่ระบบ
+        </button>
       </div>
     )
   }
@@ -119,19 +150,25 @@ export default function SellPage() {
           />
         </div>
         <div>
-          <label className="block font-medium">URL รูปภาพ (ไม่บังคับ)</label>
+          <label className="block font-medium">รูปสินค้า</label>
           <input
-            type="url"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            disabled={uploading}
             className="w-full border p-2 rounded"
-            placeholder="https://example.com/image.jpg"
           />
+          {uploading && <p className="text-sm text-gray-500 mt-1">กำลังอัปโหลด...</p>}
+          {formData.imageUrl && (
+            <div className="mt-2">
+              <img src={formData.imageUrl} alt="Preview" className="h-32 object-cover rounded border" />
+              <p className="text-xs text-gray-500 mt-1">คลิกปุ่มลงขายเพื่อบันทึก</p>
+            </div>
+          )}
         </div>
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || uploading}
           className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:bg-gray-400"
         >
           {loading ? 'กำลังเพิ่ม...' : 'ลงขายสินค้า'}

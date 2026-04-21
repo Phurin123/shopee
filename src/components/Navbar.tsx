@@ -20,6 +20,7 @@ export default function Navbar() {
             <>
               <Link href="/my-products" className="hover:text-blue-600">สินค้าของฉัน</Link>
               <Link href="/sell" className="hover:text-blue-600">ขายสินค้า</Link>
+              <Link href="/profile" className="hover:text-blue-600">บัญชีของฉัน</Link>
               <span>สวัสดี, {user.name}</span>
               <button onClick={logout} className="text-red-500">ออกจากระบบ</button>
             </>

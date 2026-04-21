@@ -34,9 +34,14 @@ export async function getCurrentUser() {
   const decoded = verifyToken(token)
   if (!decoded) return null
 
-  const user = await prisma.user.findUnique({
+ const user = await prisma.user.findUnique({
     where: { id: decoded.userId },
-    select: { id: true, email: true, name: true }
+    select: { 
+      id: true, 
+      email: true, 
+      name: true,
+      username: true // ✅ เพิ่มบรรทัดนี้
+    }
   })
 
   return user
