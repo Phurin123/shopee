@@ -18,11 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="th">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gray-50 text-gray-800`}>
         <AuthProvider>
           <Navbar />
-          <main className="container mx-auto px-4 py-8">
-            {children}
+          <main className="w-full pb-20 md:pb-8 pt-4 md:pt-6">
+            <div className="w-full max-w-[1400px] mx-auto px-2 md:px-6">
+              {children}
+            </div>
           </main>
         </AuthProvider>
       </body>

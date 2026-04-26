@@ -1,34 +1,30 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import ProductCard from '@/components/ProductCard'
-
-interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  stock: number
-  imageUrl: string
-}
+import React from 'react';
+import { HomeNavbar } from '@/components/home/HomeNavbar';
+import { BannerSection } from '@/components/home/BannerSection';
+import { ServiceIcons } from '@/components/home/ServiceIcons';
+import { CategoryGrid } from '@/components/home/CategoryGrid';
+import { FlashSale } from '@/components/home/FlashSale';
+import { ShopeeMall } from '@/components/home/ShopeeMall';
+import { DailyDiscover } from '@/components/home/DailyDiscover';
+import { FloatingButtons } from '@/components/home/FloatingButtons';
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([])
-
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(setProducts)
-  }, [])
-
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">สินค้าทั้งหมด</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+    <div className="bg-[#f5f5f5] min-h-screen pb-20 font-sans">
+      <HomeNavbar />
+
+      <main className="max-w-[1200px] mx-auto px-4">
+        <BannerSection />
+        <ServiceIcons />
+        <CategoryGrid />
+        <FlashSale />
+        <ShopeeMall />
+        <DailyDiscover />
+      </main>
+
+      <FloatingButtons />
     </div>
-  )
+  );
 }
