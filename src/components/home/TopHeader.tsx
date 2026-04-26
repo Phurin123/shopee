@@ -2,7 +2,7 @@ import React from 'react';
 import { Bell, ChevronRight } from 'lucide-react';
 
 export const TopHeader = () => (
-  <div className="bg-[#ee4d2d] text-white text-[12px] py-1 border-b border-white/10">
+  <div className="bg-[#ee4d2d] text-white text-[12px] py-1 border-b border-white/10 hidden lg:block">
     <div className="max-w-[1200px] mx-auto px-4 flex justify-between">
       <div className="flex gap-4">
         <a href="#" className="hover:opacity-80">Seller Centre</a>
