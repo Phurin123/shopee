@@ -71,3 +71,8 @@ export type Order = Prisma.OrderModel
  * 
  */
 export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model Address
+ * 
+ */
+export type Address = Prisma.AddressModel

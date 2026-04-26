@@ -30,6 +30,7 @@ model User {
   products Product[]
   carts    Cart[]
   orders   Order[]
+  addresses Address[]
 }
 
 model Product {
@@ -89,6 +90,23 @@ model OrderItem {
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
   price     Float
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipientName String
+  phone       String
+  addressLine1 String
+  addressLine2 String?
+  subdistrict String   // ตำบล/แขวง
+  district    String   // อำเภอ/เขต
+  province    String   // จังหวัด
+  postalCode  String
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 

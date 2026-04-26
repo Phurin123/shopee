@@ -28,7 +28,7 @@ export default function ProductsPage() {
       {products.length === 0 ? (
         <p>กำลังโหลดสินค้า...</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
           {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
